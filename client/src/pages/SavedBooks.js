@@ -16,6 +16,7 @@ const SavedBooks = () => {
 
   // use this to determine if `useEffect()` hook needs to run again
   const userDataLength = Object.keys(userData).length;
+  const [deleteMutation, { error }] = useMutation(REMOVE_BOOK);
 
   useEffect(() => {
     const getUserData = async () => {
@@ -51,11 +52,11 @@ const SavedBooks = () => {
     }
 
     try {
-      const response = await deleteBook(bookId, token);
-
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
+      const response = await deleteMutation(bookId);
+      // const response = await deleteBook(bookId, token);
+      // if (!response.ok) {
+      //   throw new Error('something went wrong!');
+      // }
 
       const updatedUser = await response.json();
       setUserData(updatedUser);
